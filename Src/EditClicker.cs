@@ -4,7 +4,7 @@ using WindowsInput.Native;
 
 namespace FortniteAutoclicker
 {
-    class AutoEditor
+    class EditClicker
     {
         enum ClickType { Left, Right }
         public const byte MinimalDelayBetweenActions = 5;
@@ -17,7 +17,7 @@ namespace FortniteAutoclicker
 
 
 
-        public AutoEditor(int delay, int newLoopDelay)
+        public EditClicker(int delay, int newLoopDelay)
         {
             ActionDelay = delay;
             LoopDelay = newLoopDelay;

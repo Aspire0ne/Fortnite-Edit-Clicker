@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace FortniteAutoclicker
 {
-    class ProcessMonitor
+    class ForegroundProcessMonitor
     {
         const string FortniteProcessBeginningName = "FortniteClient-";
 

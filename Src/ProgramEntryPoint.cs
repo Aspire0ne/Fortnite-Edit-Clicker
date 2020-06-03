@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace FortniteAutoclicker
 {
-    static class Program
+    static class ProgramEntryPoint
     {
 
         [STAThread]

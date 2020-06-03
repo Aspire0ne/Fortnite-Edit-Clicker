@@ -26,7 +26,7 @@ namespace FortniteAutoclicker
 
         void GlobalHookKeyPress(object sender, KeyEventArgs e)
         {
-            if (Trigger == e.KeyCode && ProcessMonitor.IsFortniteFocused())
+            if (Trigger == e.KeyCode && ForegroundProcessMonitor.IsFortniteFocused())
                 MethodToInvoke.Invoke();
         }
     }

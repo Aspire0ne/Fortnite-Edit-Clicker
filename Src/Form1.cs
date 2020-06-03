@@ -12,15 +12,15 @@ namespace FortniteAutoclicker
         const string PauseButtonPausedText = "Zapnout";
         const string PauseButtonRunningText = "Stopnout";
         readonly KeypressListener listener;
-        readonly AutoEditor editor;
+        readonly EditClicker clicker;
 
         public Form1()
         {
             InitializeComponent();
             StopButt.Text = PauseButtonRunningText;
 
-            editor = new AutoEditor(int.Parse(ActionDelayTextBoxLbl.Text), int.Parse(LoopDelayTextBox.Text));
-            listener = new KeypressListener((Keys)TriggerButt.Text[0], editor.ToggleAsynchronously);
+            clicker = new EditClicker(int.Parse(ActionDelayTextBoxLbl.Text), int.Parse(LoopDelayTextBox.Text));
+            listener = new KeypressListener((Keys)TriggerButt.Text[0], clicker.ToggleAsynchronously);
             InfoDefaultText = InfoLbl.Text;
         }
 
@@ -33,8 +33,8 @@ namespace FortniteAutoclicker
         {
             if (StopButt.Text.Equals(PauseButtonRunningText))
             {
-                if (editor.Running)
-                    editor.ToggleAsynchronously();
+                if (clicker.Running)
+                    clicker.ToggleAsynchronously();
                 listener.Unsubscribe();
                 StopButt.Text = PauseButtonPausedText;
             }
@@ -48,14 +48,12 @@ namespace FortniteAutoclicker
 
         void OnTriggerButtonClick(object sender, EventArgs e)
         {
-            Console.WriteLine("trigger button click");
             InfoLbl.Text = WaitingForKeyPressText;
             TriggerButt.Focus();
         }
 
         void OnTriggerButtonKeyPress(object obj, KeyEventArgs e)
         {
-            Console.WriteLine("trigger button press");
             InfoLbl.Text = InfoDefaultText;
             Keys keyCode = e.KeyCode;
             TriggerButt.Text = keyCode.ToString();
@@ -68,16 +66,16 @@ namespace FortniteAutoclicker
 
         // Delay textBoxes.  
         void OnActionDelayTextBoxFocusLoss(object sender, EventArgs e)
-            => HandleDelayTextBoxFocusLoss(AutoEditor.MinimalDelayBetweenActions, ActionDelayTextBoxLbl);
+            => HandleDelayTextBoxFocusLoss(EditClicker.MinimalDelayBetweenActions, ActionDelayTextBoxLbl);
 
         void OnLoopDelayTextBoxFocusLoss(object sender, EventArgs e)
-            => HandleDelayTextBoxFocusLoss(AutoEditor.MinimalDelayBetweenLoops, LoopDelayTextBox);
+            => HandleDelayTextBoxFocusLoss(EditClicker.MinimalDelayBetweenLoops, LoopDelayTextBox);
 
         void OnActionDelayTextBoxTextChange(object sender, EventArgs e)
-            => HandleDelayTextboxValueChange(ActionDelayTextBoxLbl, editor.ChangeActionDelay, AutoEditor.MinimalDelayBetweenActions);
+            => HandleDelayTextboxValueChange(ActionDelayTextBoxLbl, clicker.ChangeActionDelay, EditClicker.MinimalDelayBetweenActions);
 
         void OnLoopDelayTextBoxTextChange(object sender, EventArgs e)
-            => HandleDelayTextboxValueChange(LoopDelayTextBox, editor.ChangeLoopDelay, AutoEditor.MinimalDelayBetweenLoops);
+            => HandleDelayTextboxValueChange(LoopDelayTextBox, clicker.ChangeLoopDelay, EditClicker.MinimalDelayBetweenLoops);
 
 
         void HandleDelayTextBoxFocusLoss(int minimalValue, TextBox textbot)
@@ -95,7 +93,7 @@ namespace FortniteAutoclicker
             else
             {
                 int delay = int.Parse(textbox.Text);
-                methodToCall.Invoke(delay == 0 ? AutoEditor.MinimalDelayBetweenLoops : delay);
+                methodToCall.Invoke(delay == 0 ? EditClicker.MinimalDelayBetweenLoops : delay);
             }
         }
     }
