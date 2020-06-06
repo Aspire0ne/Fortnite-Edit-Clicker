@@ -178,7 +178,7 @@
             this.MinimizePictureBox.TabStop = false;
             this.MinimizePictureBox.Click += new System.EventHandler(this.OnMinimizePictureBox_Click);
             // 
-            // Form1
+            // Form1 this.MouseDown += Form_MouseDown;
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -205,6 +205,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ClosePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinimizePictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.MouseDown += Form_MouseDown;
             this.PerformLayout();
 
         }
