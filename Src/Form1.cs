@@ -12,8 +12,6 @@ namespace FortniteAutoclicker
     public partial class Form1 : Form
     {
         readonly string InfoDefaultText;
-        PictureBox InitialClosePictureBox;
-        PictureBox InitialMinimizePictureBox;
         readonly static Color InteractivePictureBoxActiveTint = Color.FromArgb(100, 209, 31, 31);
         const string WaitingForKeyPressText = "Stiskni klávesu...";
         const string PauseButtonPausedText = "Zapnout";
@@ -31,8 +29,6 @@ namespace FortniteAutoclicker
 
             clicker = new EditClicker(ushort.Parse(ActionDelayTextBox.Text), ushort.Parse(LoopDelayTextBox.Text));
             listener = new KeypressListener((Keys)TriggerButt.Text[0], clicker, MouseClickTurnsOffCheckBox.Checked);
-            InitialClosePictureBox = MinimizePictureBox;
-            InitialMinimizePictureBox = ClosePictureBox;
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -73,7 +69,6 @@ namespace FortniteAutoclicker
 
         void OnInteractivePictureBox_MouseLeave(object sender, EventArgs e)
         {
-            Console.WriteLine("unpainting");
             //   if (sender is PictureBox box)
 
         }
