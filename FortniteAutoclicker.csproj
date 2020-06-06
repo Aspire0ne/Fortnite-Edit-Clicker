@@ -7,7 +7,7 @@
     <ProjectGuid>{0D3A2EF5-4970-40F4-8F0A-0C1236D4C0DE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FortniteAutoclicker</RootNamespace>
-    <AssemblyName>FortniteAutoclicker</AssemblyName>
+    <AssemblyName>Fortnite EditClicker</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Src\KeypressListener.cs" />
     <Compile Include="Src\ForegroundProcessMonitor.cs" />
+    <Compile Include="Src\MicroStopwatch.cs" />
     <Compile Include="Src\ProgramEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Src\Form1.resx">
