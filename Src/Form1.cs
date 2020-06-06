@@ -69,8 +69,7 @@ namespace FortniteAutoclicker
 
         void OnInteractivePictureBox_MouseLeave(object sender, EventArgs e)
         {
-            //   if (sender is PictureBox box)
-
+            // if (sender is PictureBox box)
         }
 
 
@@ -105,6 +104,7 @@ namespace FortniteAutoclicker
             Keys keyCode = e.KeyCode;
             TriggerButt.Text = keyCode.ToString();
             listener.Trigger = keyCode;
+            InfoLbl.Focus();
         }
 
         private void OnTurnOffWithLeftClickCheckBox_CheckedChange(object sender, EventArgs e) => listener.MouseClickIsTrigger = MouseClickTurnsOffCheckBox.Checked;
