@@ -1,5 +1,5 @@
 # Fortnite-Edit-Clicker
-A small tool that'll edit faster than you could ever imagine.
+### A small tool that'll edit faster than you could ever imagine.
 
 I prioritized it's processor usage (both while just sitting in the background and while editing) and tried to optimize it as much as I could, which came at a cost as far as usage is concerned.
 
