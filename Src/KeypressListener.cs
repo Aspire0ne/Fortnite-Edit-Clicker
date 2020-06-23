@@ -99,13 +99,7 @@ namespace FortniteAutoclicker
                 new Thread(() =>
                 {
                     Thread.CurrentThread.IsBackground = true;
-                    Thread.CurrentThread.Priority = ThreadPriority.Highest;
-                    if (!Clicker.Running && Clicker.Mode != EditClicker.PowerMode.Normal)
-                    {
-                        Process currProcess = Process.GetCurrentProcess();
-                        currProcess.ProcessorAffinity = new IntPtr(2);
-                        currProcess.PriorityClass = ProcessPriorityClass.High;
-                    }
+                    Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
                     Clicker.Toggle();
                 }).Start();
 
