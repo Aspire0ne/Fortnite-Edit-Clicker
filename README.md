@@ -7,7 +7,7 @@ I prioritized it's processor usage (both while just sitting in the background an
 Modes change the way the program measures delays.
 
 ### Normal mode
-The delay is made by putting the current thread to sleep. This approach is the most imprecise one - the final delay is ~ [delay] + [5 - 20]ms, depending on the circumstances. It's however also the most efficient one.
+The delay is made by putting the current thread to sleep. This approach is the most imprecise one - the final delay is ~ [delay] + [5 - 20]ms, depending on the circumstances. It's however also the most CPU efficient one.
 
 ### High mode
 The delay is made by starting a Stopwatch and cycling in loop until the elapsed time >= delay. The final delay is [delay] + [1 - 10]ms, depending on the circumstances. This mode takes a lot of CPU resources.
