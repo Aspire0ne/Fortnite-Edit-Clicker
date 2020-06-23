@@ -11,11 +11,10 @@ namespace FortniteAutoclicker
 {
     public partial class Form1 : Form
     {
-        readonly string InfoDefaultText;
-        readonly static Color InteractivePictureBoxActiveTint = Color.FromArgb(100, 209, 31, 31);
+        readonly string InfoDefaultText = "";
         const string WaitingForKeyPressText = "Stiskni klávesu...";
         const string PauseButtonPausedText = "Zapnout";
-        const string PauseButtonRunningText = "Stopnout";
+        const string PauseButtonRunningText = "Pozastavit";
         readonly KeypressListener listener;
         readonly EditClicker clicker;
 
@@ -23,55 +22,17 @@ namespace FortniteAutoclicker
         {
             InitializeComponent();
             StopButt.Text = PauseButtonRunningText;
-            InfoDefaultText = InfoLbl.Text;
-            FormBorderStyle = FormBorderStyle.None;
+            //InfoDefaultText = InfoLbl.Text;
             BackColor = Color.FromArgb(62, 63, 65);
+
+            foreach (var mode in (EditClicker.PowerMode[])Enum.GetValues(typeof(EditClicker.PowerMode)))
+                PowerModeMenu.Items.Add(mode.ToString());
+
+            PowerModeMenu.Text = EditClicker.PowerMode.Balanced.ToString();
 
             clicker = new EditClicker(ushort.Parse(ActionDelayTextBox.Text), ushort.Parse(LoopDelayTextBox.Text));
             listener = new KeypressListener((Keys)TriggerButt.Text[0], clicker, MouseClickTurnsOffCheckBox.Checked);
         }
-
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-
-        [DllImport("user32.dll")] public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")] public static extern bool ReleaseCapture();
-
-        private void Form_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-
-        void TintPictureBox(PictureBox box)
-        {
-            Image boxImg = box.Image;
-            SolidBrush brush = new SolidBrush(InteractivePictureBoxActiveTint);
-
-            Graphics g = Graphics.FromImage(boxImg);
-            g.FillRectangle(brush, 0, 0, boxImg.Width, boxImg.Height);
-            box.Invalidate();
-
-            brush.Dispose();
-            g.Dispose();
-        }
-
-
-        //TODO: Tint the buttons red
-        void OnInteractivePictureBox_MouseEnter(object sender, EventArgs e)
-        {
-            //if (sender is PictureBox box)
-            // TintPictureBox(box);
-        }
-
-        void OnInteractivePictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            // if (sender is PictureBox box)
-        }
-
 
         void OnFormLoad(object sender, EventArgs e) => listener.StartListening();
 
@@ -110,7 +71,7 @@ namespace FortniteAutoclicker
         private void OnTurnOffWithLeftClickCheckBox_CheckedChange(object sender, EventArgs e) => listener.MouseClickIsTrigger = MouseClickTurnsOffCheckBox.Checked;
 
 
-        // Delay textBoxes.  
+        #region Delay textboxes
         void OnActionDelayTextBox_FocusLoss(object sender, EventArgs e)
             => HandleDelayTextBoxFocusLoss(EditClicker.MinimalDelayBetweenActions, ActionDelayTextBox);
 
@@ -125,7 +86,8 @@ namespace FortniteAutoclicker
 
         void HandleDelayTextBoxFocusLoss(int minimalValue, TextBox textbot)
         {
-            if (int.Parse(textbot.Text) < minimalValue)
+            bool parsed = int.TryParse(textbot.Text, out int value);
+            if (!parsed || value < minimalValue)
                 textbot.Text = minimalValue.ToString();
         }
 
@@ -148,15 +110,16 @@ namespace FortniteAutoclicker
                 methodToCall.Invoke(delay == 0 ? EditClicker.MinimalDelayBetweenLoops : delay);
             }
         }
+        #endregion
 
-        private void OnClosePictureBox_Click(object sender, EventArgs e)
+        private void OnPowerModeMenu_ItemChange(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
-
-        private void OnMinimizePictureBox_Click(object sender, EventArgs e)
-        {
-            WindowState = FormWindowState.Minimized;
+            if (!(clicker is null))
+            {
+                string item = PowerModeMenu.SelectedItem.ToString();
+                EditClicker.PowerMode itemAsPowerMode = (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), item);
+                clicker.Mode = itemAsPowerMode;
+            }
         }
     }
 }
