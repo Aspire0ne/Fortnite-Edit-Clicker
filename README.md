@@ -13,4 +13,4 @@ The delay is made by putting the current thread to sleep. This approach is the m
 The delay is made by starting a Stopwatch and cycling in loop until the elapsed time >= delay. The final delay is [delay] + [1 - 10]ms, depending on the circumstances. This mode takes a lot of CPU resources.
 
 ### Ultra mode
-The delay is made by starting a modified Stopwatch and cycling in a loop until the elapsed time >= delay. The stopwatch first establishes microseconds pass in one tick (1000000D / Frequency) and then produces the elapsed time in microseconds (Elapsed ticks * one tick microseconds). The accuracy can up to microseconds, depending on the circumstances.
+The delay is made by starting a modified Stopwatch and cycling in a loop until the elapsed time >= delay. The stopwatch first establishes microseconds passed in one tick (1000000D / Frequency) and then produces the elapsed time in microseconds (Elapsed ticks * one tick microseconds). The accuracy can be up to microseconds, depending on the circumstances.
