@@ -42,6 +42,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.PowerModeMenuLabel = new System.Windows.Forms.Label();
             this.PowerModeMenu = new System.Windows.Forms.ComboBox();
+            this.CheckIfFortniteRunning_CheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // StopButt
@@ -151,9 +152,9 @@
             this.MouseClickTurnsOffCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.MouseClickTurnsOffCheckBox.Location = new System.Drawing.Point(24, 201);
             this.MouseClickTurnsOffCheckBox.Name = "MouseClickTurnsOffCheckBox";
-            this.MouseClickTurnsOffCheckBox.Size = new System.Drawing.Size(183, 24);
+            this.MouseClickTurnsOffCheckBox.Size = new System.Drawing.Size(187, 24);
             this.MouseClickTurnsOffCheckBox.TabIndex = 12;
-            this.MouseClickTurnsOffCheckBox.Text = "vypnout kliknutím myši";
+            this.MouseClickTurnsOffCheckBox.Text = "Vypnout kliknutím myši";
             this.toolTip1.SetToolTip(this.MouseClickTurnsOffCheckBox, "Pokud je auto-edit právě zapnut, stisk tlačítka myši ho vypne.");
             this.MouseClickTurnsOffCheckBox.UseVisualStyleBackColor = true;
             this.MouseClickTurnsOffCheckBox.CheckedChanged += new System.EventHandler(this.OnTurnOffWithLeftClickCheckBox_CheckedChange);
@@ -182,12 +183,27 @@
             this.PowerModeMenu.Tag = "";
             this.PowerModeMenu.SelectedIndexChanged += new System.EventHandler(this.OnPowerModeMenu_ItemChange);
             // 
+            // CheckIfFortniteRunning_CheckBox
+            // 
+            this.CheckIfFortniteRunning_CheckBox.AutoSize = true;
+            this.CheckIfFortniteRunning_CheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CheckIfFortniteRunning_CheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.3F);
+            this.CheckIfFortniteRunning_CheckBox.Location = new System.Drawing.Point(23, 241);
+            this.CheckIfFortniteRunning_CheckBox.Name = "CheckIfFortniteRunning_CheckBox";
+            this.CheckIfFortniteRunning_CheckBox.Size = new System.Drawing.Size(188, 24);
+            this.CheckIfFortniteRunning_CheckBox.TabIndex = 15;
+            this.CheckIfFortniteRunning_CheckBox.Text = "Kontrola stavu Fortnitu";
+            this.toolTip1.SetToolTip(this.CheckIfFortniteRunning_CheckBox, "Před spuštěním zkontrolovat, zda je Fortnite zapnut, a pokud ne, nezapínat edit.");
+            this.CheckIfFortniteRunning_CheckBox.UseVisualStyleBackColor = true;
+            this.CheckIfFortniteRunning_CheckBox.CheckedChanged += new System.EventHandler(this.CheckIfFortniteRunning_CheckBox_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GrayText;
             this.ClientSize = new System.Drawing.Size(299, 425);
+            this.Controls.Add(this.CheckIfFortniteRunning_CheckBox);
             this.Controls.Add(this.PowerModeMenuLabel);
             this.Controls.Add(this.PowerModeMenu);
             this.Controls.Add(this.MouseClickTurnsOffCheckBox);
@@ -225,6 +241,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox PowerModeMenu;
         private System.Windows.Forms.Label PowerModeMenuLabel;
+        private System.Windows.Forms.CheckBox CheckIfFortniteRunning_CheckBox;
     }
 }
 

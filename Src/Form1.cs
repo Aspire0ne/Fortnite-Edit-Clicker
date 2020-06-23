@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace FortniteAutoclicker
@@ -22,13 +17,12 @@ namespace FortniteAutoclicker
         {
             InitializeComponent();
             StopButt.Text = PauseButtonRunningText;
-            //InfoDefaultText = InfoLbl.Text;
             BackColor = Color.FromArgb(62, 63, 65);
 
             foreach (var mode in (EditClicker.PowerMode[])Enum.GetValues(typeof(EditClicker.PowerMode)))
                 PowerModeMenu.Items.Add(mode.ToString());
 
-            PowerModeMenu.Text = EditClicker.PowerMode.Balanced.ToString();
+            PowerModeMenu.Text = EditClicker.PowerMode.Normal.ToString();
 
             clicker = new EditClicker(ushort.Parse(ActionDelayTextBox.Text), ushort.Parse(LoopDelayTextBox.Text));
             listener = new KeypressListener((Keys)TriggerButt.Text[0], clicker, MouseClickTurnsOffCheckBox.Checked);
@@ -52,7 +46,6 @@ namespace FortniteAutoclicker
             }
         }
 
-
         void OnTriggerButton_Click(object sender, EventArgs e)
         {
             InfoLbl.Text = WaitingForKeyPressText;
@@ -70,8 +63,8 @@ namespace FortniteAutoclicker
 
         private void OnTurnOffWithLeftClickCheckBox_CheckedChange(object sender, EventArgs e) => listener.MouseClickIsTrigger = MouseClickTurnsOffCheckBox.Checked;
 
-
         #region Delay textboxes
+
         void OnActionDelayTextBox_FocusLoss(object sender, EventArgs e)
             => HandleDelayTextBoxFocusLoss(EditClicker.MinimalDelayBetweenActions, ActionDelayTextBox);
 
@@ -110,7 +103,8 @@ namespace FortniteAutoclicker
                 methodToCall.Invoke(delay == 0 ? EditClicker.MinimalDelayBetweenLoops : delay);
             }
         }
-        #endregion
+
+        #endregion Delay textboxes
 
         private void OnPowerModeMenu_ItemChange(object sender, EventArgs e)
         {
@@ -120,6 +114,11 @@ namespace FortniteAutoclicker
                 EditClicker.PowerMode itemAsPowerMode = (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), item);
                 clicker.Mode = itemAsPowerMode;
             }
+        }
+
+        private void CheckIfFortniteRunning_CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            listener.CheckFortniteState = CheckIfFortniteRunning_CheckBox.Checked;
         }
     }
 }

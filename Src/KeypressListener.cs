@@ -1,16 +1,16 @@
 ﻿using Gma.System.MouseKeyHook;
 using System;
-using System.Media;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace FortniteAutoclicker
 {
-
     class KeypressListener
     {
         public bool MouseClickIsTrigger { get; set; }
         Keys _Trigger;
+
         public Keys Trigger
         {
             get => _Trigger;
@@ -20,11 +20,12 @@ namespace FortniteAutoclicker
                 IgnoreNextKeyUp = true;
             }
         }
+
         readonly IKeyboardEvents KeyboardHook;
         readonly IMouseEvents MouseHook;
         readonly EditClicker Clicker;
         bool IgnoreNextKeyUp;
-
+        public bool CheckFortniteState { get; set; } = false;
 
         public KeypressListener(Keys trigger, EditClicker clicker, bool mouseClickIsTrigger = true)
         {
@@ -40,15 +41,20 @@ namespace FortniteAutoclicker
         public void StopListening() => UnsubscribeKeyUp();
 
         #region Subscription methods
+
         void SubscribeKeyUp() => KeyboardHook.KeyUp += HandleKeyUp;
+
         void UnsubscribeKeyUp() => KeyboardHook.KeyUp -= HandleKeyUp;
 
         void SubscribeKeyDown() => KeyboardHook.KeyDown += HandleKeyDown;
+
         void UnsubscribeKeyDown() => KeyboardHook.KeyDown -= HandleKeyDown;
 
         void SubscribeMouseUp() => MouseHook.MouseUp += HandleMouseUp;
+
         void UnsubscribeMouseUp() => MouseHook.MouseUp -= HandleMouseUp;
-        #endregion
+
+        #endregion Subscription methods
 
         void HandleMouseUp(object sender, MouseEventArgs e) => HandleTriggerPress();
 
@@ -58,8 +64,11 @@ namespace FortniteAutoclicker
 
         void HandleGeneralKeyPress(KeyEventArgs e, bool isKeyUp)
         {
-            if (_Trigger == e.KeyCode /* @@ ForegroundProcessMonitor.IsFortniteRunning() */)
+            if (_Trigger == e.KeyCode)
             {
+                if (CheckFortniteState && !ForegroundProcessMonitor.IsFortniteFocused())
+                    return;
+
                 if (IgnoreNextKeyUp && isKeyUp)
                 {
                     IgnoreNextKeyUp = false;
@@ -87,7 +96,19 @@ namespace FortniteAutoclicker
             }
             else
             {
-                new Thread(() => { Thread.CurrentThread.Priority = ThreadPriority.AboveNormal; Thread.CurrentThread.IsBackground = true; Clicker.Toggle(); }).Start();
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+                    Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                    if (!Clicker.Running && Clicker.Mode != EditClicker.PowerMode.Normal)
+                    {
+                        Process currProcess = Process.GetCurrentProcess();
+                        currProcess.ProcessorAffinity = new IntPtr(2);
+                        currProcess.PriorityClass = ProcessPriorityClass.High;
+                    }
+                    Clicker.Toggle();
+                }).Start();
+
                 UnsubscribeKeyUp();
                 SubscribeKeyDown();
 

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace FortniteAutoclicker
 {
@@ -8,13 +8,11 @@ namespace FortniteAutoclicker
     {
         const string FortniteProcessBeginningName = "FortniteClient-";
 
-
-
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
+
         [DllImport("user32.dll")]
         private static extern int GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
 
         public static bool IsFortniteFocused()
         {

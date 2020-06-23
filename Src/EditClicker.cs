@@ -12,37 +12,56 @@ namespace FortniteAutoclicker
     {
         readonly MicroStopwatch MicroStopwatch = new MicroStopwatch();
         readonly Stopwatch RegularStopwatch = new Stopwatch();
+
         enum ClickType { Left, Right }
-        public enum PowerMode { Balanced, High, Ultra }
+
+        public enum PowerMode { Normal, High, Ultra }
+
         PowerMode _mode;
-        Action<ushort> SleepMethod;
+        Action<uint> SleepMethod;
+
         public PowerMode Mode
         {
             get => _mode;
-            set => SleepMethod = (_mode = value) switch
+            set
             {
-                PowerMode.Balanced => BalancedModeSleep,
-                PowerMode.High => HighModeSleep,
-                PowerMode.Ultra => UltraModeSleep,
-                _ => throw new NotImplementedException($"Power mode {value} was not handled.")
-            };
+                PowerMode previousMode = _mode;
+
+                SleepMethod = (_mode = value) switch
+                {
+                    PowerMode.Normal => NormalModeSleep,
+                    PowerMode.High => HighModeSleep,
+                    PowerMode.Ultra => UltraModeSleep,
+                    _ => throw new NotImplementedException($"Power mode {value} was not handled.")
+                };
+
+                if (value == PowerMode.Ultra)
+                {
+                    ChangeActionDelay((ushort)ActionDelay);
+                    ChangeLoopDelay((ushort)LoopDelay);
+                }
+                else if (previousMode == PowerMode.Ultra)
+                {
+                    ChangeActionDelay((ushort)(ActionDelay / 1000));
+                    ChangeLoopDelay((ushort)(LoopDelay / 1000));
+                }
+            }
         }
 
-        public const byte MinimalDelayBetweenActions = 1;
-        public const byte MinimalDelayBetweenLoops = 1;
+        public const byte MinimalDelayBetweenActions = 0;
+        public const byte MinimalDelayBetweenLoops = 0;
         const byte TimerResolution = 1;
         static readonly VirtualKeyCode EditKey = VirtualKeyCode.VK_G;
         readonly InputSimulator InputSim = new InputSimulator();
         public bool Running { get; private set; }
-        ushort ActionDelay;
-        ushort LoopDelay;
-
+        uint ActionDelay;
+        uint LoopDelay;
 
         [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod", SetLastError = true)] public static extern uint TimeBeginPeriod(uint uMilliseconds);
+
         [DllImport("winmm.dll", EntryPoint = "timeEndPeriod", SetLastError = true)] public static extern uint TimeEndPeriod(uint uMilliseconds);
 
-
-        public EditClicker(ushort actionDelay, ushort loopDelay, PowerMode mode = PowerMode.Balanced)
+        public EditClicker(ushort actionDelay, ushort loopDelay, PowerMode mode = PowerMode.Normal)
         {
             ActionDelay = actionDelay;
             LoopDelay = loopDelay;
@@ -97,23 +116,23 @@ namespace FortniteAutoclicker
 
         void PressEditKey() => InputSim.Keyboard.KeyPress(EditKey);
 
-        void BalancedModeSleep(ushort interval) => Thread.Sleep(interval);
+        void NormalModeSleep(uint intervalMillis) => Thread.Sleep((int)intervalMillis - 1);
 
-        void HighModeSleep(ushort interval)
+        void HighModeSleep(uint intervalMillis)
         {
             RegularStopwatch.Restart();
-            while (RegularStopwatch.Elapsed.Milliseconds < interval) { }
+            while (RegularStopwatch.Elapsed.Milliseconds < intervalMillis) { }
         }
 
-        void UltraModeSleep(ushort interval)
+        void UltraModeSleep(uint intervalMicros)
         {
-            int intervalInMicros = interval * 1000;
             MicroStopwatch.Restart();
-            while (MicroStopwatch.ElapsedMicroseconds < intervalInMicros) { }
+            while (MicroStopwatch.ElapsedMicroseconds < intervalMicros) { }
         }
 
         // Must use method instead of property, because in other parts of the code a delegate is needed to be passed
-        public void ChangeActionDelay(ushort actionDelay) => ActionDelay = actionDelay;
-        public void ChangeLoopDelay(ushort loopDelay) => LoopDelay = loopDelay;
+        public void ChangeActionDelay(ushort actionDelay) => ActionDelay = (uint)(actionDelay * (_mode == PowerMode.Ultra ? 1000 : 1));
+
+        public void ChangeLoopDelay(ushort loopDelay) => LoopDelay = (uint)(loopDelay * (_mode == PowerMode.Ultra ? 1000 : 1));
     }
 }
