@@ -1,4 +1,4 @@
-# Fortnite-Edit-Clicker - A small tool that'll edit faster than you could ever imagine.
+# Fortnite EditClicker - A small tool that'll edit faster than you could ever imagine.
 
 ## Info
 I prioritized it's processor usage (both while just sitting in the background and while editing) and tried to optimize it as much as I could - that's also why the hotkey reacts to key up instead of key down event, which makes the edit initiating a bit slower. However, when the editing is already running, a hook for key down (and optionally also mouse down) event is registered and reacted to (and again turned off after the editing ends).
