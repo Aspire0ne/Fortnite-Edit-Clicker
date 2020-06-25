@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FortniteAutoclicker.Properties
+namespace EditClicker.Properties
 {
 
 

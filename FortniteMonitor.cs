@@ -2,17 +2,15 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace FortniteAutoclicker
+namespace EditClicker
 {
-    class ForegroundProcessMonitor
+    class FortniteMonitor
     {
         const string FortniteProcessBeginningName = "FortniteClient-";
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
+        [DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll")]
-        private static extern int GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        [DllImport("user32.dll")] private static extern int GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         public static bool IsFortniteFocused()
         {
@@ -33,10 +31,7 @@ namespace FortniteAutoclicker
                 GetWindowThreadProcessId(hwnd, out uint processID);
                 return Process.GetProcessById((int)processID);
             }
-            catch
-            {
-                return null;
-            }
+            catch { return null; }
         }
     }
 }

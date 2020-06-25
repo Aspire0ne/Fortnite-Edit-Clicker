@@ -1,4 +1,4 @@
-﻿namespace FortniteAutoclicker.Src
+﻿namespace EditClicker.Utils
 {
     class MicroStopwatch : System.Diagnostics.Stopwatch
     {

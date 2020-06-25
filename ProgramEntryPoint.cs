@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace FortniteAutoclicker
+namespace EditClicker
 {
     static class ProgramEntryPoint
     {
@@ -12,7 +12,7 @@ namespace FortniteAutoclicker
             Thread.CurrentThread.Priority = ThreadPriority.Lowest;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

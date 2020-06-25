@@ -1,31 +1,49 @@
-﻿using System;
+﻿using EditClicker.Extensions;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace FortniteAutoclicker
+namespace EditClicker
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        readonly string InfoDefaultText = "";
-        const string WaitingForKeyPressText = "Stiskni klávesu...";
-        const string PauseButtonPausedText = "Zapnout";
-        const string PauseButtonRunningText = "Pozastavit";
+        const string InfoDefaultText = "";
+        const string WaitingForKeyPressText = "Press a key...";
+        const string PauseButtonPausedText = "Unpause";
+        const string PauseButtonRunningText = "Pause";
         readonly KeypressListener listener;
         readonly EditClicker clicker;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
+            FinishComponentInitialization();
+
+            clicker = new EditClicker(
+                actionDelay: ushort.Parse(ActionDelayTextBox.Text),
+                loopDelay: ushort.Parse(LoopDelayTextBox.Text),
+                mode: (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), PowerModeMenu.Text));
+
+            listener = new KeypressListener(
+                trigger: (Keys)TriggerButt.Text[0],
+                clicker: clicker,
+                mouseClickIsTrigger: MouseClickTurnsOffCheckBox.Checked,
+                checkFortniteState: CheckIfFortniteRunning_CheckBox.Checked,
+                triggerMode: TriggerTypeToggleRadioBox.Checked ? KeypressListener.TriggerMode.Toggle : KeypressListener.TriggerMode.Hold);
+        }
+
+        void FinishComponentInitialization()
+        {
+            ActiveControl = InfoLbl;
             StopButt.Text = PauseButtonRunningText;
             BackColor = Color.FromArgb(62, 63, 65);
 
             foreach (var mode in (EditClicker.PowerMode[])Enum.GetValues(typeof(EditClicker.PowerMode)))
                 PowerModeMenu.Items.Add(mode.ToString());
 
-            PowerModeMenu.Text = EditClicker.PowerMode.Normal.ToString();
-
-            clicker = new EditClicker(ushort.Parse(ActionDelayTextBox.Text), ushort.Parse(LoopDelayTextBox.Text));
-            listener = new KeypressListener((Keys)TriggerButt.Text[0], clicker, MouseClickTurnsOffCheckBox.Checked);
+            EditClicker.PowerMode normalMode = EditClicker.PowerMode.Normal;
+            PowerModeMenu.Text = normalMode.ToString();
+            toolTip1.SetToolTip(PowerModeMenu, normalMode.GetEnumDescription());
         }
 
         void OnFormLoad(object sender, EventArgs e) => listener.StartListening();
@@ -46,22 +64,36 @@ namespace FortniteAutoclicker
             }
         }
 
-        void OnTriggerButton_Click(object sender, EventArgs e)
+        void OnKeyMapperButton_Click(object sender, EventArgs e)
         {
             InfoLbl.Text = WaitingForKeyPressText;
-            TriggerButt.Focus();
+            (sender as Button).Focus();
+            listener.IgnoreNextKeyUp = true;
+        }
+
+        Keys OnKeyMapperButton_KeyPress(object sender, KeyEventArgs e)
+        {
+            InfoLbl.Text = InfoDefaultText;
+            InfoLbl.Focus();
+            Keys key = e.KeyCode;
+            (sender as Button).Text = key.ToString();
+            return key;
         }
 
         void OnTriggerButton_KeyPress(object obj, KeyEventArgs e)
         {
-            InfoLbl.Text = InfoDefaultText;
-            Keys keyCode = e.KeyCode;
-            TriggerButt.Text = keyCode.ToString();
-            listener.Trigger = keyCode;
-            InfoLbl.Focus();
+            Keys key = OnKeyMapperButton_KeyPress(obj, e);
+            listener.Trigger = key;
         }
 
-        private void OnTurnOffWithLeftClickCheckBox_CheckedChange(object sender, EventArgs e) => listener.MouseClickIsTrigger = MouseClickTurnsOffCheckBox.Checked;
+        void OnEditKeyButton_KeyPress(object obj, KeyEventArgs e)
+        {
+            Keys key = OnKeyMapperButton_KeyPress(obj, e);
+            clicker.EditKey = (WindowsInput.Native.VirtualKeyCode)key;
+        }
+
+        private void OnTurnOffWithLeftClickCheckBox_CheckedChange(object sender, EventArgs e)
+            => listener.MouseClickIsTrigger = MouseClickTurnsOffCheckBox.Checked;
 
         #region Delay textboxes
 
@@ -106,19 +138,31 @@ namespace FortniteAutoclicker
 
         #endregion Delay textboxes
 
-        private void OnPowerModeMenu_ItemChange(object sender, EventArgs e)
+        private void OnPowerModeMenuComboBox_ItemChange(object sender, EventArgs e)
         {
-            if (!(clicker is null))
+            if (clicker != null)
             {
                 string item = PowerModeMenu.SelectedItem.ToString();
                 EditClicker.PowerMode itemAsPowerMode = (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), item);
+                string description = itemAsPowerMode.GetEnumDescription();
+                toolTip1.SetToolTip(PowerModeMenu, description);
                 clicker.Mode = itemAsPowerMode;
             }
         }
 
-        private void CheckIfFortniteRunning_CheckBox_CheckedChanged(object sender, EventArgs e)
+        private void OnFortniteRunningCheckCheckBox_CheckedChange(object sender, EventArgs e)
         {
             listener.CheckFortniteState = CheckIfFortniteRunning_CheckBox.Checked;
+        }
+
+        private void OnTriggerTypeToggleRadioBox_CheckedChange(object sender, EventArgs e)
+        {
+            listener.Mode = KeypressListener.TriggerMode.Toggle;
+        }
+
+        private void OnTriggerTypeHoldRadioBox_CheckedChange(object sender, EventArgs e)
+        {
+            listener.Mode = KeypressListener.TriggerMode.Hold;
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using FortniteAutoclicker.Src;
+﻿using EditClicker.Utils;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using WindowsInput;
 using WindowsInput.Native;
 
-namespace FortniteAutoclicker
+namespace EditClicker
 {
     class EditClicker
     {
@@ -15,7 +16,17 @@ namespace FortniteAutoclicker
 
         enum ClickType { Left, Right }
 
-        public enum PowerMode { Normal, High, Ultra }
+        public enum PowerMode
+        {
+            [Description("The least CPU intensive, but cannot go under ~15ms due to time measurement inaccuracy, and can be a bit inconsistent (~20ms fluctation).")]
+            Normal,
+
+            [Description("Is more CPU intensive, but the time measurement accuracy can be up to 1ms -> faster editing, better consistency.")]
+            High,
+
+            [Description("The most CPU intensive, but the time measurement accuracy can be up to microseconds -> the fastest editing and best consistency.")]
+            Ultra
+        }
 
         PowerMode _mode;
         Action<uint> SleepMethod;
@@ -51,20 +62,20 @@ namespace FortniteAutoclicker
         public const byte MinimalDelayBetweenActions = 0;
         public const byte MinimalDelayBetweenLoops = 0;
         const byte TimerResolution = 1;
-        static readonly VirtualKeyCode EditKey = VirtualKeyCode.VK_G;
+        public VirtualKeyCode EditKey { get; set; } = VirtualKeyCode.VK_G;
         readonly InputSimulator InputSim = new InputSimulator();
         public bool Running { get; private set; }
         uint ActionDelay;
         uint LoopDelay;
 
         [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod", SetLastError = true)] public static extern uint TimeBeginPeriod(uint uMilliseconds);
-
         [DllImport("winmm.dll", EntryPoint = "timeEndPeriod", SetLastError = true)] public static extern uint TimeEndPeriod(uint uMilliseconds);
 
-        public EditClicker(ushort actionDelay, ushort loopDelay, PowerMode mode = PowerMode.Normal)
+        public EditClicker(ushort actionDelay, ushort loopDelay, PowerMode mode = PowerMode.Normal, VirtualKeyCode editKey = VirtualKeyCode.VK_G)
         {
             ActionDelay = actionDelay;
             LoopDelay = loopDelay;
+            EditKey = editKey;
             Mode = mode;
         }
 
