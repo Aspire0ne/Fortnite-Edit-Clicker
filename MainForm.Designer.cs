@@ -116,8 +116,8 @@
             // 
             // InfoLbl
             // 
-            this.InfoLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F);
-            this.InfoLbl.Location = new System.Drawing.Point(86, 237);
+            this.InfoLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.InfoLbl.Location = new System.Drawing.Point(86, 246);
             this.InfoLbl.Name = "InfoLbl";
             this.InfoLbl.Size = new System.Drawing.Size(235, 43);
             this.InfoLbl.TabIndex = 9;
@@ -244,6 +244,8 @@
             this.TriggerTypeToggleRadioBox.TabIndex = 18;
             this.TriggerTypeToggleRadioBox.TabStop = true;
             this.TriggerTypeToggleRadioBox.Text = "Toggle";
+            this.toolTip1.SetToolTip(this.TriggerTypeToggleRadioBox, "Will initiate editing when the hotkey is pressed and stop when it\'s pressed again" +
+        ".");
             this.TriggerTypeToggleRadioBox.UseVisualStyleBackColor = true;
             this.TriggerTypeToggleRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeToggleRadioBox_CheckedChange);
             // 
@@ -257,6 +259,7 @@
             this.TriggerTypeHoldRadioBox.Size = new System.Drawing.Size(60, 24);
             this.TriggerTypeHoldRadioBox.TabIndex = 19;
             this.TriggerTypeHoldRadioBox.Text = "Hold";
+            this.toolTip1.SetToolTip(this.TriggerTypeHoldRadioBox, "Will initiate editing when the hotkey is held and stop when it\'s released.");
             this.TriggerTypeHoldRadioBox.UseVisualStyleBackColor = true;
             this.TriggerTypeHoldRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeHoldRadioBox_CheckedChange);
             // 
