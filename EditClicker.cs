@@ -69,6 +69,7 @@ namespace EditClicker
         uint LoopDelay;
 
         [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod", SetLastError = true)] public static extern uint TimeBeginPeriod(uint uMilliseconds);
+
         [DllImport("winmm.dll", EntryPoint = "timeEndPeriod", SetLastError = true)] public static extern uint TimeEndPeriod(uint uMilliseconds);
 
         public EditClicker(ushort actionDelay, ushort loopDelay, PowerMode mode = PowerMode.Normal, VirtualKeyCode editKey = VirtualKeyCode.VK_G)

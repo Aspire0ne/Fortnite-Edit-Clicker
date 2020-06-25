@@ -17,5 +17,7 @@ namespace EditClicker.Extensions
 
             return valueAsString;
         }
+
+        public static T ToEnum<T>(this string str) => (T)Enum.Parse(typeof(T), str);
     }
 }

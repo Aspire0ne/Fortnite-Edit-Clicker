@@ -1,12 +1,15 @@
 ﻿using EditClicker.Extensions;
+using FortniteAutoclicker;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static EditClicker.EditClicker;
 
 namespace EditClicker
 {
     public partial class MainForm : Form
     {
+        public static readonly Color GlobalBackColor = Color.FromArgb(62, 63, 65);
         const string InfoDefaultText = "";
         const string WaitingForKeyPressText = "Press a key...";
         const string PauseButtonPausedText = "Unpause";
@@ -22,7 +25,7 @@ namespace EditClicker
             clicker = new EditClicker(
                 actionDelay: ushort.Parse(ActionDelayTextBox.Text),
                 loopDelay: ushort.Parse(LoopDelayTextBox.Text),
-                mode: (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), PowerModeMenu.Text));
+                mode: PowerModeMenu.Text.ToEnum<PowerMode>());
 
             listener = new KeypressListener(
                 trigger: (Keys)TriggerButt.Text[0],
@@ -36,12 +39,12 @@ namespace EditClicker
         {
             ActiveControl = InfoLbl;
             StopButt.Text = PauseButtonRunningText;
-            BackColor = Color.FromArgb(62, 63, 65);
+            BackColor = GlobalBackColor;
 
-            foreach (var mode in (EditClicker.PowerMode[])Enum.GetValues(typeof(EditClicker.PowerMode)))
+            foreach (var mode in (PowerMode[])Enum.GetValues(typeof(PowerMode)))
                 PowerModeMenu.Items.Add(mode.ToString());
 
-            EditClicker.PowerMode normalMode = EditClicker.PowerMode.Normal;
+            PowerMode normalMode = PowerMode.Normal;
             PowerModeMenu.Text = normalMode.ToString();
             toolTip1.SetToolTip(PowerModeMenu, normalMode.GetEnumDescription());
         }
@@ -143,7 +146,7 @@ namespace EditClicker
             if (clicker != null)
             {
                 string item = PowerModeMenu.SelectedItem.ToString();
-                EditClicker.PowerMode itemAsPowerMode = (EditClicker.PowerMode)Enum.Parse(typeof(EditClicker.PowerMode), item);
+                PowerMode itemAsPowerMode = item.ToEnum<PowerMode>();
                 string description = itemAsPowerMode.GetEnumDescription();
                 toolTip1.SetToolTip(PowerModeMenu, description);
                 clicker.Mode = itemAsPowerMode;
@@ -163,6 +166,11 @@ namespace EditClicker
         private void OnTriggerTypeHoldRadioBox_CheckedChange(object sender, EventArgs e)
         {
             listener.Mode = KeypressListener.TriggerMode.Hold;
+        }
+
+        private void OnMailPictureBox_Clicked(object sender, EventArgs e)
+        {
+            new MailPopup().Show();
         }
     }
 }

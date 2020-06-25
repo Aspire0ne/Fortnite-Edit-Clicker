@@ -43,10 +43,12 @@
             this.PowerModeMenuLabel = new System.Windows.Forms.Label();
             this.CheckIfFortniteRunning_CheckBox = new System.Windows.Forms.CheckBox();
             this.EditKeyButtLbl = new System.Windows.Forms.Label();
-            this.PowerModeMenu = new System.Windows.Forms.ComboBox();
-            this.EditKeyButt = new System.Windows.Forms.Button();
             this.TriggerTypeToggleRadioBox = new System.Windows.Forms.RadioButton();
             this.TriggerTypeHoldRadioBox = new System.Windows.Forms.RadioButton();
+            this.MailPictureBox = new System.Windows.Forms.PictureBox();
+            this.PowerModeMenu = new System.Windows.Forms.ComboBox();
+            this.EditKeyButt = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.MailPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // StopButt
@@ -54,12 +56,12 @@
             this.StopButt.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StopButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.StopButt.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.StopButt.Location = new System.Drawing.Point(86, 292);
+            this.StopButt.Location = new System.Drawing.Point(110, 301);
             this.StopButt.Name = "StopButt";
-            this.StopButt.Size = new System.Drawing.Size(235, 78);
+            this.StopButt.Size = new System.Drawing.Size(185, 78);
             this.StopButt.TabIndex = 0;
             this.StopButt.Text = "Pause";
-            this.toolTip1.SetToolTip(this.StopButt, "Will stop listening to key presses.");
+            this.toolTip1.SetToolTip(this.StopButt, "Stops listening to key presses.");
             this.StopButt.UseVisualStyleBackColor = true;
             this.StopButt.Click += new System.EventHandler(this.OnPauseButton_Click);
             // 
@@ -83,8 +85,8 @@
             this.ActionDelayTextBoxLbl.Size = new System.Drawing.Size(90, 20);
             this.ActionDelayTextBoxLbl.TabIndex = 6;
             this.ActionDelayTextBoxLbl.Text = "Press delay";
-            this.toolTip1.SetToolTip(this.ActionDelayTextBoxLbl, "Delay between presses while editing (e.g. G [delay] left click [delay] G [delay] " +
-        "right click).");
+            this.toolTip1.SetToolTip(this.ActionDelayTextBoxLbl, "Delay between presses while editing (e.g. G [delay] left click [delay] G [delay])" +
+        ".");
             // 
             // ActionDelayTextBox
             // 
@@ -117,9 +119,9 @@
             // InfoLbl
             // 
             this.InfoLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.InfoLbl.Location = new System.Drawing.Point(86, 246);
+            this.InfoLbl.Location = new System.Drawing.Point(110, 246);
             this.InfoLbl.Name = "InfoLbl";
-            this.InfoLbl.Size = new System.Drawing.Size(235, 43);
+            this.InfoLbl.Size = new System.Drawing.Size(185, 43);
             this.InfoLbl.TabIndex = 9;
             this.InfoLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -161,8 +163,7 @@
             this.MouseClickTurnsOffCheckBox.Size = new System.Drawing.Size(201, 24);
             this.MouseClickTurnsOffCheckBox.TabIndex = 12;
             this.MouseClickTurnsOffCheckBox.Text = "Turn off with mouse click";
-            this.toolTip1.SetToolTip(this.MouseClickTurnsOffCheckBox, "If the program is currently editing, left click will turn it off (will work as th" +
-        "e toggle key).");
+            this.toolTip1.SetToolTip(this.MouseClickTurnsOffCheckBox, "Turns editing off with a mouse click.");
             this.MouseClickTurnsOffCheckBox.UseVisualStyleBackColor = true;
             this.MouseClickTurnsOffCheckBox.CheckedChanged += new System.EventHandler(this.OnTurnOffWithLeftClickCheckBox_CheckedChange);
             // 
@@ -175,8 +176,8 @@
             this.PowerModeMenuLabel.Size = new System.Drawing.Size(97, 20);
             this.PowerModeMenuLabel.TabIndex = 14;
             this.PowerModeMenuLabel.Text = "Power mode";
-            this.toolTip1.SetToolTip(this.PowerModeMenuLabel, "Higher power mode can make edits faster and more stable when the edit speed is <2" +
-        "0, but will be more CPU intensive.");
+            this.toolTip1.SetToolTip(this.PowerModeMenuLabel, "Higher power mode can make edits more stable and allows a higher speed, but is mo" +
+        "re CPU intensive.");
             // 
             // CheckIfFortniteRunning_CheckBox
             // 
@@ -188,8 +189,7 @@
             this.CheckIfFortniteRunning_CheckBox.Size = new System.Drawing.Size(175, 24);
             this.CheckIfFortniteRunning_CheckBox.TabIndex = 15;
             this.CheckIfFortniteRunning_CheckBox.Text = "Check Fortnite focus";
-            this.toolTip1.SetToolTip(this.CheckIfFortniteRunning_CheckBox, "Before initiating editing check if Fortnite is focused, and if it isn\'t don\'t ini" +
-        "tiate. Can slow down initiating (~10ms)");
+            this.toolTip1.SetToolTip(this.CheckIfFortniteRunning_CheckBox, "Starts editing only when Fortnite is focused (takes ~10ms)");
             this.CheckIfFortniteRunning_CheckBox.UseVisualStyleBackColor = false;
             this.CheckIfFortniteRunning_CheckBox.CheckedChanged += new System.EventHandler(this.OnFortniteRunningCheckCheckBox_CheckedChange);
             // 
@@ -203,6 +203,49 @@
             this.EditKeyButtLbl.TabIndex = 16;
             this.EditKeyButtLbl.Text = "Edit key";
             this.toolTip1.SetToolTip(this.EditKeyButtLbl, "They key that is used in the game to edit.");
+            // 
+            // TriggerTypeToggleRadioBox
+            // 
+            this.TriggerTypeToggleRadioBox.AutoSize = true;
+            this.TriggerTypeToggleRadioBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TriggerTypeToggleRadioBox.Checked = true;
+            this.TriggerTypeToggleRadioBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.TriggerTypeToggleRadioBox.Location = new System.Drawing.Point(10, 26);
+            this.TriggerTypeToggleRadioBox.Name = "TriggerTypeToggleRadioBox";
+            this.TriggerTypeToggleRadioBox.Size = new System.Drawing.Size(75, 24);
+            this.TriggerTypeToggleRadioBox.TabIndex = 18;
+            this.TriggerTypeToggleRadioBox.TabStop = true;
+            this.TriggerTypeToggleRadioBox.Text = "Toggle";
+            this.toolTip1.SetToolTip(this.TriggerTypeToggleRadioBox, "Initiates editing when the hotkey is pressed and stops when it\'s pressed again.");
+            this.TriggerTypeToggleRadioBox.UseVisualStyleBackColor = true;
+            this.TriggerTypeToggleRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeToggleRadioBox_CheckedChange);
+            // 
+            // TriggerTypeHoldRadioBox
+            // 
+            this.TriggerTypeHoldRadioBox.AutoSize = true;
+            this.TriggerTypeHoldRadioBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TriggerTypeHoldRadioBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.TriggerTypeHoldRadioBox.Location = new System.Drawing.Point(101, 26);
+            this.TriggerTypeHoldRadioBox.Name = "TriggerTypeHoldRadioBox";
+            this.TriggerTypeHoldRadioBox.Size = new System.Drawing.Size(60, 24);
+            this.TriggerTypeHoldRadioBox.TabIndex = 19;
+            this.TriggerTypeHoldRadioBox.Text = "Hold";
+            this.toolTip1.SetToolTip(this.TriggerTypeHoldRadioBox, "Initiates editing when the hotkey is held and stops when it\'s released.");
+            this.TriggerTypeHoldRadioBox.UseVisualStyleBackColor = true;
+            this.TriggerTypeHoldRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeHoldRadioBox_CheckedChange);
+            // 
+            // MailPictureBox
+            // 
+            this.MailPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.MailPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("MailPictureBox.Image")));
+            this.MailPictureBox.Location = new System.Drawing.Point(16, 357);
+            this.MailPictureBox.Name = "MailPictureBox";
+            this.MailPictureBox.Size = new System.Drawing.Size(33, 22);
+            this.MailPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.MailPictureBox.TabIndex = 20;
+            this.MailPictureBox.TabStop = false;
+            this.toolTip1.SetToolTip(this.MailPictureBox, "Found a bug or have a suggestion? Email me!");
+            this.MailPictureBox.Click += new System.EventHandler(this.OnMailPictureBox_Clicked);
             // 
             // PowerModeMenu
             // 
@@ -232,43 +275,13 @@
             this.EditKeyButt.Click += new System.EventHandler(this.OnKeyMapperButton_Click);
             this.EditKeyButt.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnEditKeyButton_KeyPress);
             // 
-            // TriggerTypeToggleRadioBox
-            // 
-            this.TriggerTypeToggleRadioBox.AutoSize = true;
-            this.TriggerTypeToggleRadioBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.TriggerTypeToggleRadioBox.Checked = true;
-            this.TriggerTypeToggleRadioBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.TriggerTypeToggleRadioBox.Location = new System.Drawing.Point(12, 26);
-            this.TriggerTypeToggleRadioBox.Name = "TriggerTypeToggleRadioBox";
-            this.TriggerTypeToggleRadioBox.Size = new System.Drawing.Size(75, 24);
-            this.TriggerTypeToggleRadioBox.TabIndex = 18;
-            this.TriggerTypeToggleRadioBox.TabStop = true;
-            this.TriggerTypeToggleRadioBox.Text = "Toggle";
-            this.toolTip1.SetToolTip(this.TriggerTypeToggleRadioBox, "Will initiate editing when the hotkey is pressed and stop when it\'s pressed again" +
-        ".");
-            this.TriggerTypeToggleRadioBox.UseVisualStyleBackColor = true;
-            this.TriggerTypeToggleRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeToggleRadioBox_CheckedChange);
-            // 
-            // TriggerTypeHoldRadioBox
-            // 
-            this.TriggerTypeHoldRadioBox.AutoSize = true;
-            this.TriggerTypeHoldRadioBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.TriggerTypeHoldRadioBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.TriggerTypeHoldRadioBox.Location = new System.Drawing.Point(101, 26);
-            this.TriggerTypeHoldRadioBox.Name = "TriggerTypeHoldRadioBox";
-            this.TriggerTypeHoldRadioBox.Size = new System.Drawing.Size(60, 24);
-            this.TriggerTypeHoldRadioBox.TabIndex = 19;
-            this.TriggerTypeHoldRadioBox.Text = "Hold";
-            this.toolTip1.SetToolTip(this.TriggerTypeHoldRadioBox, "Will initiate editing when the hotkey is held and stop when it\'s released.");
-            this.TriggerTypeHoldRadioBox.UseVisualStyleBackColor = true;
-            this.TriggerTypeHoldRadioBox.CheckedChanged += new System.EventHandler(this.OnTriggerTypeHoldRadioBox_CheckedChange);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GrayText;
-            this.ClientSize = new System.Drawing.Size(410, 400);
+            this.ClientSize = new System.Drawing.Size(410, 395);
+            this.Controls.Add(this.MailPictureBox);
             this.Controls.Add(this.TriggerTypeHoldRadioBox);
             this.Controls.Add(this.TriggerTypeToggleRadioBox);
             this.Controls.Add(this.EditKeyButt);
@@ -292,6 +305,7 @@
             this.Name = "MainForm";
             this.Text = "EditClicker";
             this.Load += new System.EventHandler(this.OnFormLoad);
+            ((System.ComponentModel.ISupportInitialize)(this.MailPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -316,6 +330,7 @@
         private System.Windows.Forms.Label EditKeyButtLbl;
         private System.Windows.Forms.RadioButton TriggerTypeToggleRadioBox;
         private System.Windows.Forms.RadioButton TriggerTypeHoldRadioBox;
+        private System.Windows.Forms.PictureBox MailPictureBox;
     }
 }
 
